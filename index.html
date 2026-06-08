@@ -1,0 +1,927 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IA aplicada a Marea Roja - Víctor Visñuk</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="nav-dots">
+        <a href="#portada" class="dot active"><span class="dot-tooltip">Portada</span></a>
+        <a href="#fan-info" class="dot"><span class="dot-tooltip">¿Qué es FAN?</span></a>
+        <a href="#problema" class="dot"><span class="dot-tooltip">Problemática</span></a>
+        <a href="#objetivos" class="dot"><span class="dot-tooltip">Objetivos</span></a>
+        <a href="#metodologia" class="dot"><span class="dot-tooltip">Metodología</span></a>
+        <a href="#arquitectura" class="dot"><span class="dot-tooltip">Arquitectura</span></a>
+        <a href="#resultados" class="dot"><span class="dot-tooltip">Resultados</span></a>
+        <a href="#figuras" class="dot"><span class="dot-tooltip">Figuras</span></a>
+        <a href="#shap" class="dot"><span class="dot-tooltip">Explicabilidad</span></a>
+        <a href="#conclusiones" class="dot"><span class="dot-tooltip">Conclusiones</span></a>
+        <a href="#cierre" class="dot"><span class="dot-tooltip">Cierre</span></a>
+    </div>
+
+    <section id="portada" style="position: relative;">
+        <img src="logo_utn.png" alt="Logo UTN" style="position: fixed; top: 40px; right: 50px; width: 160px; filter: drop-shadow(0 4px 6px rgba(0,0,0,0.3)); z-index: 2000;">
+        
+        <div class="section-container" style="text-align: center; margin-top: 50px;">
+            
+           <p class="font-mono" style="color: var(--text-main); font-size: 1rem; letter-spacing: 2px; margin-bottom: 25px;">
+                INGENIERÍA PESQUERA | PROYECTO INTEGRADOR II
+            </p>
+
+            <p class="font-mono" style="color: var(--accent); letter-spacing: 3px; margin-bottom: 5px;">
+                UNIVERSIDAD TECNOLÓGICA NACIONAL | FACULTAD REGIONAL TIERRA DEL FUEGO - EXTENSIÓN ÁULICA USHUAIA
+            </p>
+            
+            <h1 style="font-size: 2.8rem; line-height: 1.2; margin: 10px 0 25px 0; color: var(--text-main);">
+                Aplicación de Herramientas de Inteligencia Artificial en el Fenómeno Marea Roja en el Canal Beagle
+            </h1>
+
+            <div class="bg-accent-soft" style="margin: 0 auto 40px auto; padding: 25px; border-radius: 12px; text-align: justify; box-shadow: var(--shadow);">
+                <p style="font-size: 1rem; line-height: 1.6; margin: 0;">
+                    Este trabajo propone y valida un enfoque basado en <strong>inteligencia artificial</strong> para la detección temprana de eventos asociados a la toxina paralizante de moluscos (TPM). Mediante la construcción de un dataset integrado (2021-2025) y el entrenamiento de clasificadores jerárquicos en cascada, el sistema evalúa la peligrosidad de episodios de marea roja en Puerto Almanza, funcionando como una herramienta complementaria de apoyo a la toma de decisiones sanitarias.
+                </p>
+            </div>
+            
+            <div class="grid-3" style="margin-bottom: 40px;">
+                <div class="card person-card">
+                    <span class="font-mono" style="font-size: 0.7rem; opacity: 0.6;">AUTOR</span><br>
+                    <strong style="font-size: 1.1rem;">Víctor Visñuk</strong>
+                </div>
+                <div class="card person-card">
+                    <span class="font-mono" style="font-size: 0.7rem; opacity: 0.6;">DIRECTOR</span><br>
+                    <strong style="font-size: 1.1rem;">Lic. Juan Paulo Zarza</strong>
+                </div>
+                <div class="card person-card">
+                    <span class="font-mono" style="font-size: 0.7rem; opacity: 0.6;">CO-DIRECTOR</span><br>
+                    <strong style="font-size: 1.1rem;">Lic. Cristián Petracchi</strong>
+                </div>
+            </div>
+
+            <div style="margin-bottom: 30px;">
+                <span class="font-mono" style="color: var(--warning); font-size: 0.85rem; font-weight: 700; display: block; margin-bottom: 12px;">Palabras clave:</span>
+                <div style="display: flex; gap: 10px; justify-content: center; flex-wrap: wrap;">
+                    <span class="keyword-tag">Floraciones algales nocivas</span>
+                    <span class="keyword-tag">Toxina paralizante de moluscos</span>
+                    <span class="keyword-tag">Aprendizaje automático</span>
+                    <span class="keyword-tag">Sistema de alerta temprana</span>
+                    <span class="keyword-tag">Desbalance de clases</span>
+                    <span class="keyword-tag">Canal Beagle</span>
+                    <span class="keyword-tag">Marea roja</span>
+                    <span class="keyword-tag">Inteligencia artificial</span>
+                </div>
+            </div>
+
+            <p class="font-mono" style="color: var(--text-muted); font-size: 0.9rem;">Ushuaia, Tierra del Fuego | Junio de 2026</p>
+        </div>
+    </section>
+
+    <section id="fan-info">
+        <div class="section-container">
+            <h2 style="margin-bottom: 5px;"><i class="fas fa-microscope"></i> ¿Qué es la Marea Roja?</h2>
+            
+            <div class="grid-2">
+                <div>
+                    
+                    <p style="margin-top: 0;">Las <strong>Floraciones Algales Nocivas (FAN)</strong>, conocidas coloquialmente como "marea roja", son proliferaciones anómalas de microalgas fitoplanctónicas que producen metabolitos tóxicos. Estas toxinas se bioacumulan en organismos filtradores, principalmente bivalvos, transformándolos en vectores de intoxicación.</p>
+                    
+                    <div class="callout" style="border-left-color: var(--safe); margin-top: 15px; margin-bottom: 15px; padding: 15px;">
+                        En el canal Beagle, los episodios tóxicos son atribuibles principalmente al dinoflagelado <strong><em>Alexandrium catenella</em></strong>, productor de toxina paralizante de moluscos (TPM).
+                    </div>
+
+                    <div class="callout warning-callout" style="border-left-color: var(--danger); margin-bottom: 20px; padding: 12px 15px; background: rgba(255, 107, 107, 0.05);">
+                        <strong style="color: var(--danger); font-size: 0.9rem; display: block; margin-bottom: 5px;"><i class="fas fa-exclamation-triangle"></i> Límite Normativo: 800 µg STX eq. kg⁻¹</strong>
+                        <p style="margin: 0; font-size: 0.85rem; color: var(--text-main); line-height: 1.4;"><em>(Microgramos de equivalentes de Saxitoxina por kilogramo de tejido).</em> Es el estándar internacional para medir la toxicidad. Si una muestra supera este umbral, el molusco es letal para el consumo humano y se declara el <strong>Cierre Sanitario (Veda)</strong>.</p>
+                    </div>
+
+                    <h4 style="color: var(--text-main); margin-bottom: 10px;">Dinámica Multifactorial</h4>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 10px;">
+                        <div class="bg-accent-soft" style="padding: 8px 10px; border-radius: 6px; font-size: 0.85rem; display: flex; align-items: center; gap: 10px;">
+                            <i class="fas fa-sun" style="color: var(--accent);"></i> Radiación
+                        </div>
+                        <div class="bg-accent-soft" style="padding: 8px 10px; border-radius: 6px; font-size: 0.85rem; display: flex; align-items: center; gap: 10px;">
+                            <i class="fas fa-water" style="color: var(--accent);"></i> Nutrientes
+                        </div>
+                        <div class="bg-accent-soft" style="padding: 8px 10px; border-radius: 6px; font-size: 0.85rem; display: flex; align-items: center; gap: 10px;">
+                            <i class="fas fa-layer-group" style="color: var(--accent);"></i> Estratificación
+                        </div>
+                        <div class="bg-accent-soft" style="padding: 8px 10px; border-radius: 6px; font-size: 0.85rem; display: flex; align-items: center; gap: 10px;">
+                            <i class="fas fa-water" style="color: var(--accent);"></i> Hidrodinámica
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card danger-card">
+                    <h3><i class="fas fa-history"></i> Antecedentes Críticos</h3>
+                    <p>El canal Beagle posee un historial de eventos de toxicidad extrema documentados en la literatura regional.</p>
+                    
+                    <div style="margin-top: 15px; padding: 10px; background: rgba(255,107,107,0.1); border-radius: 6px; border: 1px solid var(--danger);">
+                        <strong style="color: var(--danger);">Hito Histórico (2022):</strong>
+                        <p style="font-size: 0.85rem; margin-top: 5px;">Se registró un evento extremo con mortalidad multiespecífica. La transferencia trófica de toxinas afectó no solo a bivalvos, sino también a peces, aves y mamíferos marinos.</p>
+                    </div>
+                    
+                    <img src="microalga.jpg" alt="Alexandrium catenella" title="Representación de Alexandrium catenella" loading="lazy" style="width: 100%; border-radius: 4px; margin-top: 15px; border: 1px solid rgba(255,255,255,0.1); cursor: help;">
+                </div>
+            </div>
+
+            <div class="grid-3" style="margin-top: 15px;">
+                <div class="card danger-card" style="text-align: center; padding: 15px;">
+                    <i class="fas fa-thermometer-half" style="font-size: 1.8rem; color: var(--danger); margin-bottom: 8px;"></i>
+                    <p style="font-size: 0.9rem;"><strong>Inercia Térmica</strong><br>Retardos temporales entre clima y respuesta biótica.</p>
+                </div>
+                
+                <div class="card safe-card" style="text-align: center; padding: 15px;">
+                    <i class="fa-solid fa-biohazard" style="font-size: 1.8rem; color: var(--safe); margin-bottom: 8px;"></i>
+                    <p style="font-size: 0.9rem;"><strong>Inercia Biológica</strong><br>La toxina continúa en los moluscos luego de pasada la FAN.</p>
+                </div>
+                
+                <div class="card warning-card" style="text-align: center; border-color: var(--warning); padding: 15px;">
+                    <i class="fas fa-book" style="font-size: 1.8rem; color: var(--warning); margin-bottom: 8px;"></i>
+                    <p style="font-size: 0.9rem;"><strong>Estado del Arte</strong><br>Global: IA con biosensores in situ.<br>Regional: Clima satelital proxy.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section id="problema">
+        <div class="section-container" style="text-align: center;">
+            <h2 style="margin-bottom: 5px;"><i class="fas fa-exclamation-circle"></i> Contexto y Problemática</h2>
+            <span class="subtitle" style="margin-bottom: 20px;">Geomorfología compleja y desafíos del monitoreo actual</span>
+            
+            <div class="grid-3" style="margin-bottom: 20px; text-align: left;">
+                
+                <div class="card danger-card" style="border-top: 4px solid var(--danger);">
+                    <h3 style="margin-bottom: 10px;"><i class="fas fa-briefcase-medical"></i> Impacto Dual <i class="fa-solid fa-sack-dollar"></i></h3>
+                    <p style="font-size: 0.9rem;">Amenaza recurrente a la salud pública y parálisis económica de la pesca artesanal y la recolección en Puerto Almanza.</p>
+                </div>
+                
+                <div class="card warning-card" style="border-top: 4px solid var(--warning);">
+                    <h3 style="margin-bottom: 10px;"><i class="fas fa-clock"></i> Latencia Operativa</h3>
+                    <p style="font-size: 0.9rem;">Esquema reactivo basado en bioensayos <em>in vitro</em>. El desfasaje (extracción, logística y análisis) retrasa resoluciones entre <strong>48 y 72 horas</strong>.</p>
+                </div>
+                
+                <div class="card person-card" style="border-top: 4px solid var(--accent);">
+                    <h3 style="margin-bottom: 10px;"><i class="fas fa-exclamation-triangle"></i> Brecha Tecnológica</h3>
+                    <p style="font-size: 0.9rem;">Dependencia exclusiva del flujo físico de muestras. Falta de integración automatizada de variables climáticas para priorizar muestreos.</p>
+                </div>
+            </div>
+
+            <div id="map-wrapper" style="position: relative; width: 100%; height: 450px; border: 1px solid var(--border-color); border-radius: 8px; overflow: hidden; background: rgba(0,0,0,0.4); box-shadow: var(--shadow);">
+                
+                <div style="position: absolute; bottom: 15px; left: 15px; z-index: 10; background: var(--bg-main); border: 1px solid var(--border-color); padding: 8px 12px; border-radius: 6px; font-size: 0.8rem; text-align: left; box-shadow: var(--shadow);">
+                    <strong style="color: var(--accent);"><i class="fas fa-map-marker-alt"></i> IDETDF:</strong> <span style="color: var(--text-main);">Zonas de Producción</span><br>
+                    <span style="color: var(--text-muted); font-size: 0.75rem;">Visualización espacial del área de estudio</span>
+                </div>
+
+                <button onclick="toggleElementFullscreen('map-wrapper')" style="position: absolute; top: 15px; right: 15px; z-index: 10; background: var(--bg-main); border: 1px solid var(--border-color); color: var(--text-main); padding: 8px 12px; border-radius: 4px; cursor: pointer; transition: 0.3s; display: flex; align-items: center; gap: 8px; font-size: 0.8rem; box-shadow: var(--shadow);">
+                    <i class="fas fa-expand"></i> Pantalla Completa
+                </button>
+                
+                <iframe
+                    id="map-iframe"
+                    src="https://tiles.tierradelfuego.gob.ar/maps/476/embed"
+                    width="100%"
+                    height="100%"
+                    loading="lazy"
+                    style="border:0;"
+                    allowfullscreen>
+                </iframe>
+            </div>
+        </div>
+    </section>
+
+    <section id="objetivos">
+        <div class="section-container">
+            <h2 style="margin-bottom: 5px;"><i class="fas fa-bullseye"></i> Justificación y Objetivos</h2>
+            <span class="subtitle" style="margin-bottom: 30px;">El propósito del proyecto y el valor de la IA</span>
+
+            <div class="grid-2" style="margin-bottom: 30px;">
+                
+                <div class="card person-card" style="border-top: 4px solid var(--accent);">
+                    <h3 style="margin-bottom: 15px;"><i class="fas fa-lightbulb"></i> ¿Por qué este trabajo?</h3>
+                    <p style="margin-bottom: 15px; font-size: 0.95rem;">Cubre una brecha local crítica: la ausencia de un sistema automatizado en Puerto Almanza que mejore la anticipación de eventos <strong>sin reemplazar</strong> los procedimientos sanitarios de referencia.</p>
+                    <ul style="font-size: 0.85rem; color: var(--text-muted); padding-left: 20px; line-height: 1.6; margin: 0;">
+                        <li><strong>Vigilancia continua:</strong> Generar alertas diarias pasivas basadas en la evolución del clima.</li>
+                        <li><strong>Optimización de recursos estatales:</strong> Priorizar la logística de lanchas y laboratorios solo ante señales algorítmicas de riesgo.</li>
+                    </ul>
+                </div>
+
+                <div class="card safe-card" style="border-top: 4px solid var(--safe);">
+                    <h3 style="margin-bottom: 15px; color: var(--safe);"><i class="fas fa-robot"></i> El Aporte del Machine Learning</h3>
+                    <p style="margin-bottom: 15px; font-size: 0.95rem;">La IA clásica es ideal para este problema porque permite modelar la complejidad biológica encontrando relaciones no lineales en el historial meteorológico.</p>
+                    <ul style="font-size: 0.85rem; color: var(--text-muted); padding-left: 20px; line-height: 1.6; margin: 0;">
+                        <li><strong>Automatización predictiva:</strong> Drástica reducción de la latencia en la toma de decisiones.</li>
+                        <li><strong>Objetividad matemática:</strong> Asignación de probabilidades libres de sesgo humano.</li>
+                        <li><strong>Escalabilidad:</strong> Mejora iterativa conforme ingresan nuevos análisis (MLOps).</li>
+                    </ul>
+                </div>
+            </div>
+
+            <h3 style="color: var(--text-main); margin-bottom: 15px; border-bottom: 1px solid var(--border-color); padding-bottom: 10px; font-size: 1.2rem;">Objetivos del Proyecto Integrador</h3>
+
+            <div class="callout warning-callout" style="border-left-color: var(--warning); background: var(--warning-bg); margin-top: 0; box-shadow: var(--shadow);">
+                <strong style="color: var(--warning); display: block; margin-bottom: 5px; font-family: monospace; text-transform: uppercase;">Objetivo General</strong>
+                <p style="margin: 0; font-size: 1rem; color: var(--text-main); line-height: 1.5;">Desarrollar y evaluar un sistema basado en inteligencia artificial para la detección temprana y clasificación de eventos de marea roja en el canal Beagle, integrando variables meteorológicas y series de TPM para validar su viabilidad como herramienta de apoyo a la toma de decisiones.</p>
+            </div>
+
+            <div class="grid-3" style="margin-top: 25px;">
+                <div style="background: var(--accent-bg); border: 1px solid var(--accent); padding: 15px; border-radius: 8px;">
+                    <strong style="color: var(--accent); font-size: 0.9rem; display: block; margin-bottom: 5px;"><i class="fas fa-database"></i> 1. Datos y Memoria</strong>
+                    <p style="font-size: 0.85rem; color: var(--text-muted); margin: 0; line-height: 1.5;">Construir un dataset limpio (2021-2025) calculando medias móviles para capturar la inercia climática local.</p>
+                </div>
+                <div style="background: var(--accent-bg); border: 1px solid var(--accent); padding: 15px; border-radius: 8px;">
+                    <strong style="color: var(--accent); font-size: 0.9rem; display: block; margin-bottom: 5px;"><i class="fas fa-sitemap"></i> 2. Arquitectura</strong>
+                    <p style="font-size: 0.85rem; color: var(--text-muted); margin: 0; line-height: 1.5;">Diseñar, entrenar e implementar un esquema de clasificación jerárquico en dos etapas (Presencia y Peligro).</p>
+                </div>
+                <div style="background: var(--accent-bg); border: 1px solid var(--accent); padding: 15px; border-radius: 8px;">
+                    <strong style="color: var(--accent); font-size: 0.9rem; display: block; margin-bottom: 5px;"><i class="fas fa-search-plus"></i> 3. Evaluación y Explicabilidad</strong>
+                    <p style="font-size: 0.85rem; color: var(--text-muted); margin: 0; line-height: 1.5;">Evaluar la aplicabilidad operativa real e interpretar los <em>drivers</em> ambientales que gatillan la toxina.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="metodologia">
+        <div class="section-container">
+            <h2 style="margin-bottom: 5px;"><i class="fas fa-vials"></i> Metodología y Robustez de Datos</h2>
+            <span class="subtitle" style="margin-bottom: 30px;">Desde el Excel hasta el Modelo</span>
+            
+            <div style="display: flex; flex-direction: column; gap: 15px;">
+                
+                <div class="card person-card" style="display: flex; align-items: center; gap: 25px; padding: 20px 30px; border-left: 5px solid var(--accent);">
+                    <div style="font-size: 2.5rem; color: var(--accent); min-width: 60px; text-align: center;">
+                        <i class="fas fa-database"></i>
+                    </div>
+                    <div>
+                        <h3 style="margin: 0 0 5px 0; color: var(--text-main); font-size: 1.2rem;">1. Ingesta e Integración (Dataset)</h3>
+                        <p style="margin: 0; font-size: 0.95rem; color: var(--text-muted);">Combinación de <strong>275 muestras empíricas reales</strong> (Lab. de Toxinas) con 101 variables meteorológicas diarias satelitales (NASA POWER) en el período 2021-2025.</p>
+                        <button onclick="openModal('diccionario')" class="font-mono" style="margin-top: 12px; background: transparent; border: 1px solid var(--accent); color: var(--accent); padding: 6px 12px; border-radius: 4px; cursor: pointer; font-size: 0.75rem; transition: 0.3s; box-shadow: var(--shadow);"><i class="fas fa-book-open"></i> Ver Diccionario de Datos</button>
+                    </div>
+                </div>
+
+                <div style="text-align: center; color: var(--border-color); font-size: 1.5rem;"><i class="fas fa-arrow-down"></i></div>
+
+                <div class="card warning-card" style="display: flex; align-items: center; gap: 25px; padding: 20px 30px; border-left: 5px solid var(--warning);">
+                    <div style="font-size: 2.5rem; color: var(--warning); min-width: 60px; text-align: center;">
+                        <i class="fas fa-cogs"></i>
+                    </div>
+                    <div>
+                        <h3 style="margin: 0 0 5px 0; color: var(--text-main); font-size: 1.2rem;">2. Ingeniería de Variables (Memoria Biológica)</h3>
+                        <p style="margin: 0; font-size: 0.95rem; color: var(--text-muted);">Cálculo de medias móviles (7, 14 y 30 días) y rezagos temporales para capturar matemáticamente la inercia del clima antes de cada muestreo.</p>
+                    </div>
+                </div>
+
+                <div style="text-align: center; color: var(--border-color); font-size: 1.5rem;"><i class="fas fa-arrow-down"></i></div>
+
+                <div class="card danger-card" style="display: flex; align-items: center; gap: 25px; padding: 20px 30px; border-left: 5px solid var(--danger);">
+                    <div style="font-size: 2.5rem; color: var(--danger); min-width: 60px; text-align: center;">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <div>
+                        <h3 style="margin: 0 0 5px 0; color: var(--text-main); font-size: 1.2rem;">3. Prevención de Data Leakage</h3>
+                        <p style="margin: 0; font-size: 0.95rem; color: var(--text-muted);">Particionado cronológico estricto usando <strong>TimeSeriesSplit</strong> (n_splits=5). El modelo jamás vio el futuro ni entrenó con datos sintéticos imputados.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="callout safe-callout" style="border-left-color: var(--safe); margin-top: 30px; box-shadow: var(--shadow);">
+                <strong style="color: var(--safe); font-size: 1.1rem; display: block; margin-bottom: 8px;"><i class="fas fa-check-circle"></i> Decisión Metodológica Crítica</strong>
+                <p style="margin: 0; font-size: 1rem; color: var(--text-main);">Para evitar sesgos de aprendizaje por redundancia climática, el entrenamiento y la evaluación final se restringieron <u>estrictamente</u> a los 275 días con análisis de laboratorio, descartando los días interpolados.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="arquitectura">
+        <div class="section-container">
+            <h2 style="margin-bottom: 5px;"><i class="fas fa-project-diagram"></i> Arquitectura del Sistema Predictivo</h2>
+            <span class="subtitle" style="margin-bottom: 30px;">Esquema Jerárquico: Inferencia en Cascada</span>
+            
+            <p style="margin-bottom: 30px; font-size: 1rem; color: var(--text-muted); text-align: center;">
+                Se implementó un esquema de clasificación jerárquica en dos etapas para predecir la categoría final de aptitud sanitaria. La inferencia final del sistema se obtiene aplicando ambos clasificadores de forma secuencial.
+            </p>
+
+            <div class="grid-2">
+                <div class="card safe-card" style="border-top: 4px solid var(--safe); display: flex; flex-direction: column;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+                        <h3 style="margin:0; color: var(--safe);">FASE 1: PRESENCIA</h3>
+                        <span class="font-mono" style="background: var(--bg-main); border: 1px solid var(--safe); color: var(--safe); padding: 4px 10px; border-radius: 4px; font-size: 0.75rem; font-weight: 700; box-shadow: var(--shadow);">REGRESIÓN LOGÍSTICA</span>
+                    </div>
+                    <p style="font-size: 0.95rem; margin-bottom: 15px; color: var(--text-muted);">
+                        <strong>Detección Binaria:</strong> En la primera etapa, el clasificador analiza las forzantes meteorológicas para detectar la Presencia de toxina, discriminando entre observaciones "No detectables" y "Detectables".
+                    </p>
+                    
+                    <div id="lr-wrapper" style="width: 100%; flex-grow: 1; min-height: 250px; background: rgba(0,0,0,0.4); border-radius: 6px; border: 1px solid var(--border-color); display: flex; justify-content: center; align-items: center; overflow: hidden; position: relative;">
+                        <button onclick="toggleElementFullscreen('lr-wrapper')" style="position: absolute; top: 10px; right: 10px; z-index: 10; background: var(--bg-main); border: 1px solid var(--safe); color: var(--safe); padding: 6px 12px; border-radius: 4px; cursor: pointer; transition: 0.3s; font-size: 0.8rem; box-shadow: var(--shadow);">
+                            <i class="fas fa-expand"></i>
+                        </button>
+                        <img src="logistic_regression.gif" alt="Regresión Logística" loading="lazy" style="width: 100%; height: 100%; object-fit: contain; border-radius: 6px;">
+                    </div>
+                </div>
+
+                <div class="card danger-card" style="border-top: 4px solid var(--danger); display: flex; flex-direction: column;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+                        <h3 style="margin:0; color: var(--danger);">FASE 2: PELIGROSIDAD</h3>
+                        <span class="font-mono" style="background: var(--bg-main); border: 1px solid var(--danger); color: var(--danger); padding: 4px 10px; border-radius: 4px; font-size: 0.75rem; font-weight: 700; box-shadow: var(--shadow);">GRADIENT BOOSTING</span>
+                    </div>
+                    <p style="font-size: 0.95rem; margin-bottom: 15px; color: var(--text-muted);">
+                        <strong>Clasificación de Grado:</strong> Solo si el modelo predice la presencia de toxina, se activa esta segunda etapa donde el modelo especialista evalúa si la muestra supera el umbral normativo (Apto [&lt; 800 µg] vs. No apto [&gt; 800 µg]).
+                    </p>
+                    
+                    <div style="display: flex; flex-direction: column; gap: 15px; flex-grow: 1;">
+                        
+                        <div id="tree-wrapper" style="width: 100%; height: 190px; background: rgba(0,0,0,0.4); border-radius: 6px; border: 1px solid var(--border-color); display: flex; justify-content: center; align-items: center; overflow: hidden; position: relative;">
+                            <span style="position: absolute; top: 10px; left: 10px; background: var(--bg-main); color: var(--text-main); font-weight: 700; padding: 4px 10px; border-radius: 4px; font-size: 0.75rem; font-family: monospace; border: 1px solid var(--border-color); box-shadow: var(--shadow); z-index: 5;">1. ALGORITMO BASE (ÁRBOL)</span>
+                            <button onclick="toggleElementFullscreen('tree-wrapper')" style="position: absolute; top: 10px; right: 10px; z-index: 10; background: var(--bg-main); border: 1px solid var(--border-color); color: var(--text-main); padding: 6px 12px; border-radius: 4px; cursor: pointer; transition: 0.3s; font-size: 0.8rem; box-shadow: var(--shadow);">
+                                <i class="fas fa-expand"></i>
+                            </button>
+                            <img src="tree.gif" alt="Árbol de Decisión" loading="lazy" style="width: 100%; height: 100%; object-fit: contain; border-radius: 6px;">
+                        </div>
+
+                        <div id="boost-wrapper" style="width: 100%; height: 190px; background: rgba(0,0,0,0.4); border-radius: 6px; border: 1px solid var(--border-color); display: flex; justify-content: center; align-items: center; overflow: hidden; position: relative;">
+                            <span style="position: absolute; top: 10px; left: 10px; background: var(--bg-main); color: var(--danger); font-weight: 700; padding: 4px 10px; border-radius: 4px; font-size: 0.75rem; font-family: monospace; border: 1px solid var(--danger); box-shadow: var(--shadow); z-index: 5;">2. ENSAMBLE SECUENCIAL</span>
+                            <button onclick="toggleElementFullscreen('boost-wrapper')" style="position: absolute; top: 10px; right: 10px; z-index: 10; background: var(--bg-main); border: 1px solid var(--danger); color: var(--danger); padding: 6px 12px; border-radius: 4px; cursor: pointer; transition: 0.3s; font-size: 0.8rem; box-shadow: var(--shadow);">
+                                <i class="fas fa-expand"></i>
+                            </button>
+                            <img src="boosting.gif" alt="Gradient Boosting" loading="lazy" style="width: 100%; height: 100%; object-fit: contain; border-radius: 6px;">
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="resultados">
+        <div class="section-container">
+            <h2 style="margin-bottom: 5px;"><i class="fas fa-chart-line"></i> Evaluación y Desempeño</h2>
+            
+            <div class="grid-2">
+                <div class="card person-card" style="display: flex; flex-direction: column; border-top: 4px solid var(--accent); padding: 25px;">
+                    <h3 style="color: var(--accent); margin-bottom: 12px; font-size: 1.05rem;"><i class="fas fa-table"></i> Métricas del Sistema</h3>
+                    <table style="font-size: 0.8rem; margin-top: 0; margin-bottom: 20px;">
+                        <thead>
+                            <tr><th style="padding: 8px;">Algoritmo Evaluado</th><th style="padding: 8px;">F1 Fase 1</th><th style="padding: 8px;">F1 Fase 2</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr><td style="padding: 8px;"><strong>Gradient Boosting</strong></td><td style="padding: 8px;">0.399</td><td style="padding: 8px;"><strong>0.742</strong></td></tr>
+                            <tr><td style="padding: 8px;">SVM</td><td style="padding: 8px;">0.236</td><td style="padding: 8px;">0.664</td></tr>
+                            <tr><td style="padding: 8px;">XGBoost</td><td style="padding: 8px;">0.470</td><td style="padding: 8px;">0.622</td></tr>
+                            <tr><td style="padding: 8px;">Random Forest</td><td style="padding: 8px;">0.503</td><td style="padding: 8px;">0.463</td></tr>
+                            <tr><td style="padding: 8px;"><strong>Regresión Logística</strong></td><td style="padding: 8px;"><strong>0.692</strong></td><td style="padding: 8px;">0.227</td></tr>
+                        </tbody>
+                    </table>
+                    <div style="display: flex; gap: 10px; margin-bottom: 20px;">
+                        <button onclick="openModal('hiperparametros')" class="font-mono" style="flex: 1; background: transparent; border: 1px solid var(--warning); color: var(--warning); padding: 8px; border-radius: 4px; cursor: pointer; font-size: 0.75rem; transition: 0.3s; box-shadow: var(--shadow);">
+                            <i class="fas fa-cogs"></i> Ver grilla de entrenamiento
+                        </button>
+                        <button onclick="openModal('metricas')" class="font-mono" style="flex: 1; background: transparent; border: 1px solid var(--accent); color: var(--accent); padding: 8px; border-radius: 4px; cursor: pointer; font-size: 0.75rem; transition: 0.3s; box-shadow: var(--shadow);">
+                            <i class="fas fa-calculator"></i> Fórmulas
+                        </button>
+                    </div>
+                    <h3 style="color: var(--safe); margin-bottom: 12px; font-size: 1.05rem;"><i class="fas fa-sitemap"></i> Resultados Finales (Sistema en Cascada)</h3>
+                    <table style="font-size: 0.8rem; margin-top: 0; margin-bottom: 15px;">
+                        <thead>
+                            <tr><th style="padding: 8px;">Clase Predicha</th><th style="padding: 8px;">Precision</th><th style="padding: 8px;">Recall</th><th style="padding: 8px;">F1-Score</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr><td style="padding: 8px;">0: Normal</td><td style="padding: 8px;">0.87</td><td style="padding: 8px;">0.68</td><td style="padding: 8px;">0.76</td></tr>
+                            <tr><td style="padding: 8px;">1: Alerta (Apto)</td><td style="padding: 8px;">0.35</td><td style="padding: 8px;">0.64</td><td style="padding: 8px;">0.45</td></tr>
+                            <tr><td style="padding: 8px;">2: Cierre Sanitario</td><td style="padding: 8px;">0.60</td><td style="padding: 8px;">0.50</td><td style="padding: 8px;">0.55</td></tr>
+                        </tbody>
+                    </table>
+
+                    <div style="display: flex; justify-content: space-around; background: var(--bg-main); border: 1px solid var(--border-color); padding: 12px; border-radius: 8px; margin-top: auto; box-shadow: inset 0 2px 4px rgba(0,0,0,0.05);">
+                        <div style="text-align: center;">
+                            <span style="font-size: 0.7rem; color: var(--text-muted); font-weight: 700; display: block;">EXACTITUD</span>
+                            <strong style="font-size: 1.3rem; color: var(--text-main);">0.65</strong>
+                        </div>
+                        <div style="text-align: center;">
+                            <span style="font-size: 0.7rem; color: var(--text-muted); font-weight: 700; display: block;">F1-MACRO</span>
+                            <strong style="font-size: 1.3rem; color: var(--text-main);">0.59</strong>
+                        </div>
+                        <div style="text-align: center;">
+                            <span style="font-size: 0.7rem; color: var(--text-muted); font-weight: 700; display: block;">SOPORTE</span>
+                            <strong style="font-size: 1.3rem; color: var(--text-main);">55</strong>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card safe-card" style="border-top: 4px solid var(--safe); padding: 25px; display: flex; flex-direction: column;">
+                    <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 10px;">
+                        <h3 style="color: var(--safe); font-size: 1.15rem; margin: 0;"><i class="fas fa-sliders-h"></i> Simulador Matriz y Métricas</h3>
+                        <button onclick="resetSimulation()" style="background:none; border:none; color: var(--text-muted); cursor: pointer; font-size: 0.8rem; text-decoration: underline;">Reset</button>
+                    </div>
+                    <p style="margin-bottom: 15px; font-size: 0.85rem; color: var(--text-muted);">Matriz multi-clase empírica. Modifique los errores para observar el impacto en las métricas.</p>
+                    
+                    <div class="confusion-matrix-3x3" style="display: grid; grid-template-columns: auto 1fr 1fr 1fr; gap: 6px; background: var(--bg-main); padding: 15px; border-radius: 8px; border: 1px solid var(--border-color);">
+                        
+                        <div></div>
+                        <div class="cm-label" style="text-align:center; font-size:0.65rem;">Pred Normal</div>
+                        <div class="cm-label" style="text-align:center; font-size:0.65rem;">Pred Alerta</div>
+                        <div class="cm-label" style="text-align:center; font-size:0.65rem;">Pred Cierre</div>
+                        
+                        <div class="cm-label" style="display:flex; align-items:center; font-size:0.65rem;">Real Normal</div>
+                        <div class="cm-cell" style="padding: 8px; border-color: var(--safe);">
+                            <span class="cm-val" id="val-m00" style="font-size: 1.4rem; color: var(--safe);">26</span>
+                        </div>
+                        <div class="cm-cell" style="padding: 8px;">
+                            <span class="cm-val" id="val-m01" style="font-size: 1.4rem;">11</span>
+                            <div class="sim-btn-group" style="margin-top:4px;">
+                                <button class="sim-btn sim-btn-sm" onclick="shiftValue('m00', 'm01')"><i class="fas fa-plus"></i></button>
+                                <button class="sim-btn sim-btn-sm" onclick="shiftValue('m01', 'm00')"><i class="fas fa-minus"></i></button>
+                            </div>
+                        </div>
+                        <div class="cm-cell" style="padding: 8px;">
+                            <span class="cm-val" id="val-m02" style="font-size: 1.4rem;">1</span>
+                            <div class="sim-btn-group" style="margin-top:4px;">
+                                <button class="sim-btn sim-btn-sm" onclick="shiftValue('m00', 'm02')"><i class="fas fa-plus"></i></button>
+                                <button class="sim-btn sim-btn-sm" onclick="shiftValue('m02', 'm00')"><i class="fas fa-minus"></i></button>
+                            </div>
+                        </div>
+
+                        <div class="cm-label" style="display:flex; align-items:center; font-size:0.65rem;">Real Alerta</div>
+                        <div class="cm-cell" style="padding: 8px;">
+                            <span class="cm-val" id="val-m10" style="font-size: 1.4rem;">3</span>
+                            <div class="sim-btn-group" style="margin-top:4px;">
+                                <button class="sim-btn sim-btn-sm" onclick="shiftValue('m11', 'm10')"><i class="fas fa-plus"></i></button>
+                                <button class="sim-btn sim-btn-sm" onclick="shiftValue('m10', 'm11')"><i class="fas fa-minus"></i></button>
+                            </div>
+                        </div>
+                        <div class="cm-cell" style="padding: 8px; border-color: var(--safe);">
+                            <span class="cm-val" id="val-m11" style="font-size: 1.4rem; color: var(--safe);">7</span>
+                        </div>
+                        <div class="cm-cell" style="padding: 8px;">
+                            <span class="cm-val" id="val-m12" style="font-size: 1.4rem;">1</span>
+                            <div class="sim-btn-group" style="margin-top:4px;">
+                                <button class="sim-btn sim-btn-sm" onclick="shiftValue('m11', 'm12')"><i class="fas fa-plus"></i></button>
+                                <button class="sim-btn sim-btn-sm" onclick="shiftValue('m12', 'm11')"><i class="fas fa-minus"></i></button>
+                            </div>
+                        </div>
+
+                        <div class="cm-label" style="display:flex; align-items:center; font-size:0.65rem;">Real Cierre</div>
+                        <div class="cm-cell" style="padding: 8px;">
+                            <span class="cm-val" id="val-m20" style="font-size: 1.4rem;">1</span>
+                            <div class="sim-btn-group" style="margin-top:4px;">
+                                <button class="sim-btn sim-btn-sm" onclick="shiftValue('m22', 'm20')"><i class="fas fa-plus"></i></button>
+                                <button class="sim-btn sim-btn-sm" onclick="shiftValue('m20', 'm22')"><i class="fas fa-minus"></i></button>
+                            </div>
+                        </div>
+                        <div class="cm-cell" style="padding: 8px;">
+                            <span class="cm-val" id="val-m21" style="font-size: 1.4rem;">2</span>
+                            <div class="sim-btn-group" style="margin-top:4px;">
+                                <button class="sim-btn sim-btn-sm" onclick="shiftValue('m22', 'm21')"><i class="fas fa-plus"></i></button>
+                                <button class="sim-btn sim-btn-sm" onclick="shiftValue('m21', 'm22')"><i class="fas fa-minus"></i></button>
+                            </div>
+                        </div>
+                        <div class="cm-cell" style="padding: 8px; border-color: var(--safe);">
+                            <span class="cm-val" id="val-m22" style="font-size: 1.4rem; color: var(--safe);">3</span>
+                        </div>
+                    </div>
+                    
+                    <div class="metrics-board" style="padding: 15px; margin-top: 15px;">
+                        <div class="metric-box">
+                            <span style="font-size: 0.75rem;">EXACTITUD (ACC)</span>
+                            <strong id="live-acc" style="font-size: 1.6rem;">65.5%</strong>
+                        </div>
+                        <div class="metric-box">
+                            <span style="font-size: 0.75rem;">F1-MACRO FINAL</span>
+                            <strong id="live-f1" style="font-size: 1.6rem;">0.59</strong>
+                        </div>
+                    </div>
+
+                    <div style="margin-top: auto; padding-top: 15px;">
+                        <div class="callout warning-callout" style="border-left-color: var(--warning); background: var(--warning-bg); margin: 0; padding: 12px; box-shadow: var(--shadow);">
+                            <strong style="color: var(--warning); font-size: 0.85rem;"><i class="fas fa-exclamation-triangle"></i> Incertidumbre Estadística (N=55)</strong>
+                            <p style="font-size: 0.8rem; color: var(--text-main); margin: 5px 0 0 0; line-height: 1.4;">En escenarios de desbalance extremo, esta muestra acotada induce alta sensibilidad paramétrica. Los valores cuantitativos representan una tendencia; una variación unitaria en la clase minoritaria impacta fuertemente en el F1-Macro.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="figuras" style="height: 100vh; overflow: hidden; padding-top: 50px; padding-bottom: 20px; display: flex; flex-direction: column;">
+        <div class="section-container" style="display: flex; flex-direction: column; flex-grow: 1; min-height: 0; max-height: 100%;">
+            <h2 style="margin-bottom: 5px; flex-shrink: 0;"><i class="fas fa-images"></i> Análisis Visual y Figuras</h2>
+            <span class="subtitle" style="margin-bottom: 10px; flex-shrink: 0;">Exploración gráfica de los resultados del modelo</span>
+            
+            <div class="carousel-container" style="position: relative; width: 100%; flex-grow: 1; min-height: 0; margin-top: 10px;">
+                
+                <button onclick="changeFigure(-1)" style="position: absolute; left: -25px; top: 50%; transform: translateY(-50%); z-index: 50; background: var(--bg-main); border: 2px solid var(--border-color); color: var(--text-main); width: 50px; height: 50px; border-radius: 50%; cursor: pointer; display: flex; justify-content: center; align-items: center; transition: 0.2s; box-shadow: var(--shadow); font-size: 1.2rem;">
+                    <i class="fas fa-chevron-left"></i>
+                </button>
+                <button onclick="changeFigure(1)" style="position: absolute; right: -25px; top: 50%; transform: translateY(-50%); z-index: 50; background: var(--bg-main); border: 2px solid var(--border-color); color: var(--text-main); width: 50px; height: 50px; border-radius: 50%; cursor: pointer; display: flex; justify-content: center; align-items: center; transition: 0.2s; box-shadow: var(--shadow); font-size: 1.2rem;">
+                    <i class="fas fa-chevron-right"></i>
+                </button>
+
+                <div class="figure-slide active card neutral-card" id="fig-slide-1" style="border-top: 4px solid var(--text-main); padding: 20px; display: flex; flex-direction: column; height: 100%;">
+                    <h3 style="margin:0 0 15px 0; color: var(--text-main); flex-shrink: 0; font-size: 1.1rem;"><i class="fas fa-th"></i> 1. Matrices de Confusión</h3>
+                    
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; flex-grow: 1; min-height: 0;">
+                        <div id="wrapper-m1" style="position: relative; background: rgba(0,0,0,0.4); border-radius: 8px; border: 1px solid var(--border-color); padding: 15px; padding-top: 45px; display: flex; flex-direction: column; box-shadow: inset 0 0 10px rgba(0,0,0,0.5);">
+                            <span style="position: absolute; top: 10px; left: 10px; background: var(--bg-main); color: var(--text-main); font-weight: 700; padding: 4px 10px; border-radius: 4px; font-size: 0.75rem; box-shadow: var(--shadow); z-index: 5;">FASES 1 Y 2</span>
+                            <button onclick="toggleElementFullscreen('wrapper-m1')" style="position: absolute; top: 10px; right: 10px; z-index: 10; background: var(--bg-main); border: 1px solid var(--border-color); color: var(--text-main); padding: 6px 10px; border-radius: 4px; cursor: pointer; transition: 0.3s; font-size: 0.8rem; box-shadow: var(--shadow);"><i class="fas fa-expand"></i></button>
+                            <div style="position: relative; width: 100%; flex-grow: 1; min-height: 0;">
+                                <img src="matriz_1.png" alt="Matrices Fases 1 y 2" loading="lazy" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: contain;">
+                            </div>
+                        </div>
+                        <div id="wrapper-m2" style="position: relative; background: rgba(0,0,0,0.4); border-radius: 8px; border: 1px solid var(--border-color); padding: 15px; padding-top: 45px; display: flex; flex-direction: column; box-shadow: inset 0 0 10px rgba(0,0,0,0.5);">
+                            <span style="position: absolute; top: 10px; left: 10px; background: var(--bg-main); color: var(--text-main); font-weight: 700; padding: 4px 10px; border-radius: 4px; font-size: 0.75rem; box-shadow: var(--shadow); z-index: 5;">SISTEMA JERÁRQUICO</span>
+                            <button onclick="toggleElementFullscreen('wrapper-m2')" style="position: absolute; top: 10px; right: 10px; z-index: 10; background: var(--bg-main); border: 1px solid var(--border-color); color: var(--text-main); padding: 6px 10px; border-radius: 4px; cursor: pointer; transition: 0.3s; font-size: 0.8rem; box-shadow: var(--shadow);"><i class="fas fa-expand"></i></button>
+                            <div style="position: relative; width: 100%; flex-grow: 1; min-height: 0;">
+                                <img src="matriz_2.png" alt="Matriz Jerárquico" loading="lazy" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: contain;">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="figure-slide card neutral-card" id="fig-slide-2" style="border-top: 4px solid var(--text-main); padding: 20px; display: flex; flex-direction: column; height: 100%;">
+                    <h3 style="margin:0; color: var(--text-main); flex-shrink: 0; font-size: 1.1rem;"><i class="far fa-calendar-alt"></i> 2. Distribución Temporal de Errores (2025)</h3>
+                    <p style="font-size: 0.85rem; color: var(--text-muted); margin: 5px 0 10px 0; flex-shrink: 0;">Mapa de calor sobre los días de muestreo real. Evidencia el sesgo precautorio y la baja incidencia de errores críticos.</p>
+                    
+                    <div id="wrapper-cal" style="position: relative; width: 100%; flex-grow: 1; min-height: 0; background: rgba(0,0,0,0.4); border-radius: 8px; border: 1px solid var(--border-color); padding: 15px; padding-top: 50px; display: flex; flex-direction: column; box-shadow: inset 0 0 10px rgba(0,0,0,0.5);">
+                        <button onclick="toggleElementFullscreen('wrapper-cal')" style="position: absolute; top: 10px; right: 10px; z-index: 10; background: var(--bg-main); border: 1px solid var(--border-color); color: var(--text-main); padding: 6px 12px; border-radius: 4px; cursor: pointer; transition: 0.3s; font-size: 0.8rem; box-shadow: var(--shadow);"><i class="fas fa-expand"></i> Ampliar Vista</button>
+                        
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; width: 100%; flex-grow: 1; min-height: 0;">
+                            <div style="position: relative; width: 100%; height: 100%;">
+                                <img src="calendario_1.png" alt="Calendario Parte 1" loading="lazy" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: contain;">
+                            </div>
+                            <div style="position: relative; width: 100%; height: 100%;">
+                                <img src="calendario_2.png" alt="Calendario Parte 2" loading="lazy" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: contain;">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="figure-slide card neutral-card" id="fig-slide-3" style="border-top: 4px solid var(--text-main); padding: 20px; display: flex; flex-direction: column; height: 100%;">
+                    <h3 style="margin:0; color: var(--text-main); flex-shrink: 0; font-size: 1.1rem;"><i class="fas fa-chart-area"></i> 3. Evolución Temporal de Riesgo de Toxicidad Severa</h3>
+                    <p style="font-size: 0.85rem; color: var(--text-muted); margin: 5px 0 10px 0; flex-shrink: 0;">Datos de validación. Muestra el output continuo del modelo Fase 2 a lo largo del tiempo.</p>
+                    
+                    <div id="wrapper-evol" style="position: relative; width: 100%; flex-grow: 1; min-height: 0; background: rgba(0,0,0,0.4); border-radius: 8px; border: 1px solid var(--border-color); padding: 15px; padding-top: 45px; display: flex; flex-direction: column; box-shadow: inset 0 0 10px rgba(0,0,0,0.5);">
+                        <button onclick="toggleElementFullscreen('wrapper-evol')" style="position: absolute; top: 10px; right: 10px; z-index: 10; background: var(--bg-main); border: 1px solid var(--border-color); color: var(--text-main); padding: 6px 12px; border-radius: 4px; cursor: pointer; transition: 0.3s; font-size: 0.8rem; box-shadow: var(--shadow);"><i class="fas fa-expand"></i> Ampliar Vista</button>
+                        <div style="position: relative; width: 100%; flex-grow: 1; min-height: 0;">
+                            <img src="evol_temp.png" alt="Evolución Temporal" loading="lazy" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: contain;">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="figure-slide card neutral-card" id="fig-slide-4" style="border-top: 4px solid var(--text-main); padding: 20px; display: flex; flex-direction: column; height: 100%;">
+                    <h3 style="margin:0; color: var(--text-main); flex-shrink: 0; font-size: 1.1rem;"><i class="fas fa-chart-bar"></i> 4. Análisis de Errores</h3>
+                    <p style="font-size: 0.85rem; color: var(--text-muted); margin: 5px 0 10px 0; flex-shrink: 0;">Distribución cuantitativa. Cantidad de errores clasificados por tipo de error cometido por el algoritmo.</p>
+                    
+                    <div id="wrapper-err" style="position: relative; width: 100%; flex-grow: 1; min-height: 0; background: rgba(0,0,0,0.4); border-radius: 8px; border: 1px solid var(--border-color); padding: 15px; padding-top: 45px; display: flex; flex-direction: column; box-shadow: inset 0 0 10px rgba(0,0,0,0.5);">
+                        <button onclick="toggleElementFullscreen('wrapper-err')" style="position: absolute; top: 10px; right: 10px; z-index: 10; background: var(--bg-main); border: 1px solid var(--border-color); color: var(--text-main); padding: 6px 12px; border-radius: 4px; cursor: pointer; transition: 0.3s; font-size: 0.8rem; box-shadow: var(--shadow);"><i class="fas fa-expand"></i> Ampliar Vista</button>
+                        <div style="position: relative; width: 100%; flex-grow: 1; min-height: 0;">
+                            <img src="errores.png" alt="Análisis de Errores" loading="lazy" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: contain;">
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            
+            <div style="display: flex; justify-content: center; gap: 12px; margin-top: 15px; flex-shrink: 0;">
+                <div class="fig-dot active" id="fig-dot-1" onclick="setFigure(1)"></div>
+                <div class="fig-dot" id="fig-dot-2" onclick="setFigure(2)"></div>
+                <div class="fig-dot" id="fig-dot-3" onclick="setFigure(3)"></div>
+                <div class="fig-dot" id="fig-dot-4" onclick="setFigure(4)"></div>
+            </div>
+        </div>
+    </section>
+
+   <section id="shap" style="height: 100vh; overflow: hidden; padding-top: 50px; padding-bottom: 20px; display: flex; flex-direction: column;">
+        <div class="section-container" style="display: flex; flex-direction: column; flex-grow: 1; min-height: 0; max-height: 100%;">
+            <h2 style="margin-bottom: 5px; flex-shrink: 0;"><i class="fas fa-dna"></i> Explicabilidad Biológica</h2>
+            <span class="subtitle" style="margin-bottom: 10px; flex-shrink: 0;">Traduciendo la matemática a dinámica poblacional</span>
+            
+            <p style="margin-bottom: 20px; font-size: 0.95rem; color: var(--text-muted); text-align: center; flex-shrink: 0;">
+                El análisis SHAP demuestra que el modelo capturó los gatillos ecofisiológicos de <em>A. catenella</em>. Identificó que forzantes distintos controlan la presencia del alga frente a la proliferación tóxica masiva.
+            </p>
+
+            <div class="grid-2" style="flex-grow: 1; min-height: 0;">
+                
+                <div class="card" style="padding: 0; overflow: hidden; display: flex; flex-direction: column; border: 1px solid var(--border-color); height: 100%;">
+                    
+                    <div style="padding: 15px; display: flex; justify-content: space-between; align-items: center; background: rgba(0,0,0,0.2); border-bottom: 1px solid rgba(255,255,255,0.05); flex-shrink: 0;">
+                        <h3 style="margin: 0; font-size: 1rem;"><i class="fas fa-project-diagram"></i> Impacto Direccional</h3>
+                        <span id="shap-badge" style="background: var(--accent-bg); color: var(--accent); border: 1px solid var(--accent); padding: 4px 8px; border-radius: 4px; font-size: 0.75rem; font-weight: 700; font-family: monospace; transition: 0.3s; box-shadow: var(--shadow);">FASE 1: PRESENCIA</span>
+                    </div>
+
+                    <div id="shap-carousel-wrapper" style="position: relative; width: 100%; flex-grow: 1; min-height: 0; background: var(--bg-dark); display: flex; align-items: center; justify-content: center;">
+                        <button onclick="toggleElementFullscreen('shap-carousel-wrapper')" style="position: absolute; top: 10px; right: 10px; z-index: 20; background: var(--bg-main); border: 1px solid var(--border-color); color: var(--text-main); padding: 6px 10px; border-radius: 4px; cursor: pointer; transition: 0.3s; font-size: 0.8rem; box-shadow: var(--shadow);">
+                            <i class="fas fa-expand"></i>
+                        </button>
+
+                        <div style="position: relative; width: 100%; height: 100%; padding: 20px;">
+                            <img id="shap-img-1" src="shap_1.png" alt="SHAP Fase 1" loading="lazy" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: contain; display: block; padding: 15px;">
+                            <img id="shap-img-2" src="shap_2.png" alt="SHAP Fase 2" loading="lazy" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: contain; display: none; padding: 15px;">
+                        </div>
+
+                        <button onclick="changeShap(-1)" style="position: absolute; left: 10px; top: 50%; transform: translateY(-50%); z-index: 20; background: rgba(0,0,0,0.6); border: 1px solid rgba(255,255,255,0.2); color: white; width: 35px; height: 35px; border-radius: 50%; cursor: pointer; display: flex; justify-content: center; align-items: center; transition: 0.2s; box-shadow: var(--shadow);">
+                            <i class="fas fa-chevron-left"></i>
+                        </button>
+                        <button onclick="changeShap(1)" style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); z-index: 20; background: rgba(0,0,0,0.6); border: 1px solid rgba(255,255,255,0.2); color: white; width: 35px; height: 35px; border-radius: 50%; cursor: pointer; display: flex; justify-content: center; align-items: center; transition: 0.2s; box-shadow: var(--shadow);">
+                            <i class="fas fa-chevron-right"></i>
+                        </button>
+
+                        <div style="position: absolute; bottom: 10px; left: 50%; transform: translateX(-50%); display: flex; gap: 8px; z-index: 20;">
+                            <div id="shap-dot-1" style="width: 10px; height: 10px; background: var(--accent); border-radius: 50%; transition: 0.3s; box-shadow: 0 0 5px var(--accent);"></div>
+                            <div id="shap-dot-2" style="width: 10px; height: 10px; background: var(--danger); border-radius: 50%; opacity: 0.3; transition: 0.3s; box-shadow: 0 0 5px var(--danger);"></div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div style="display: flex; flex-direction: column; justify-content: space-between; height: 100%; gap: 15px;">
+                    
+                    <div class="card person-card" style="background: var(--bg-main); border-left: 5px solid var(--accent); padding: 20px; flex-grow: 1; display: flex; flex-direction: column; justify-content: center;">
+                        <h4 style="margin: 0 0 10px 0; color: var(--accent); font-size: 1.1rem;"><i class="fas fa-temperature-high"></i> Fase 1 (Presencia): Inercia Térmica</h4>
+                        <p style="font-size: 0.95rem; color: var(--text-muted); margin: 0;">La amplitud térmica sostenida y el calentamiento mensual (MA 30d) son los precursores que permiten la aparición celular inicial en el canal.</p>
+                    </div>
+
+                    <div class="card danger-card" style="background: var(--bg-main); border-left: 5px solid var(--danger); padding: 20px; flex-grow: 1; display: flex; flex-direction: column; justify-content: center;">
+                        <h4 style="margin: 0 0 10px 0; color: var(--danger); font-size: 1.1rem;"><i class="fas fa-wind"></i> Fase 2 (Peligrosidad): Estratificación</h4>
+                        <p style="font-size: 0.95rem; color: var(--text-muted); margin: 0;">El paso hacia la veda sanitaria (&gt;800 µg) está dominado por la hidrodinámica: bajas velocidades de viento (MA 7d/30d) y alta radiación que inducen calma turbulenta.</p>
+                    </div>
+                    
+                    <div class="callout warning-callout" style="border-left-color: var(--warning); margin: 0; padding: 20px; background: var(--warning-bg); box-shadow: var(--shadow); flex-grow: 1; display: flex; flex-direction: column; justify-content: center;">
+                        <strong style="color: var(--warning); font-size: 1rem; display: block; margin-bottom: 5px;"><i class="fas fa-exclamation-triangle"></i> El límite del satélite (Desacople)</strong>
+                        <p style="font-size: 0.9rem; margin: 0; color: var(--text-main); line-height: 1.5;">Los errores del modelo surgen por la imposibilidad de capturar procesos físicos oceanográficos clave (como frentes de salinidad o advección de células) que anteceden a los brotes masivos.</p>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </section>
+    <section id="conclusiones" style="height: 100vh; overflow: hidden; padding-top: 50px; padding-bottom: 50px; display: flex; flex-direction: column;">
+        <div class="section-container" style="display: flex; flex-direction: column; flex-grow: 1; justify-content: center; gap: 30px; max-height: 100%;">
+            
+            <div style="text-align: center;">
+                <h2 style="justify-content: center; border-bottom: none; margin-bottom: 5px;"><i class="fas fa-check-double"></i> Conclusiones y Próximos Pasos</h2>
+            </div>
+            
+            <div class="grid-3">
+                <div class="card person-card" style="border-top: 4px solid var(--accent); text-align: center; display: flex; flex-direction: column; justify-content: flex-start; padding: 20px;">
+                    <i class="fas fa-shield-alt" style="font-size: 2rem; color: var(--accent); margin-bottom: 15px;"></i>
+                    <h3 style="font-size: 1.1rem; margin-bottom: 10px;">1. Viabilidad y Resguardo</h3>
+                    <p style="font-size: 0.95rem; color: var(--text-muted); margin: 0;">Demostró viabilidad predictiva (anticipando el 50% de eventos críticos) exhibiendo un sesgo precautorio que protege invariablemente la salud pública.</p>
+                </div>
+                
+                <div class="card warning-card" style="border-top: 4px solid var(--warning); text-align: center; display: flex; flex-direction: column; justify-content: flex-start; padding: 20px;">
+                    <i class="fas fa-bolt" style="font-size: 2rem; color: var(--warning); margin-bottom: 15px;"></i>
+                    <h3 style="font-size: 1.1rem; margin-bottom: 10px;">2. Shadow Testing</h3>
+                    <p style="font-size: 0.95rem; color: var(--text-muted); margin: 0;">Validación en sombra prospectiva sugerida para la próxima temporada. El algoritmo correrá en paralelo al laboratorio para fortalecer la muestra (N) y estabilizar la varianza.</p>
+                </div>
+                
+                <div class="card danger-card" style="border-top: 4px solid var(--danger); text-align: center; display: flex; flex-direction: column; justify-content: flex-start; padding: 20px;">
+                    <i class="fas fa-water" style="font-size: 2rem; color: var(--danger); margin-bottom: 15px;"></i>
+                    <h3 style="font-size: 1.1rem; margin-bottom: 10px;">3. Transición Oceánica</h3>
+                    <p style="font-size: 0.95rem; color: var(--text-muted); margin: 0;">Prioridad ineludible: fondeo de biosensores locales. Solo integrando salinidad y nutrientes el modelo podrá escalar hacia arquitecturas Deep Learning (LSTM/GRU).</p>
+                </div>
+            </div>
+
+            <div>
+                <h3 style="color: var(--text-main); margin-bottom: 15px; border-bottom: 1px solid var(--border-color); padding-bottom: 5px; font-size: 1.2rem; text-align: center;">Implicancias Operativas y Gobernanza</h3>
+                
+                <div class="grid-2" style="gap: 15px;">
+                    <div class="card safe-card" style="background: var(--bg-main); border-left: 4px solid var(--safe); padding: 15px 20px; display: flex; flex-direction: column; justify-content: center;">
+                        <h4 style="margin: 0 0 8px 0; color: var(--safe); font-size: 1rem;"><i class="fas fa-balance-scale"></i> Asimetría de Costos</h4>
+                        <p style="font-size: 0.85rem; color: var(--text-muted); margin: 0; line-height: 1.5;">El sistema asume como aceptable el costo económico de un falso positivo (cierre preventivo) frente al altísimo riesgo sanitario de omitir un evento de toxicidad extrema.</p>
+                    </div>
+
+                    <div class="card person-card" style="background: var(--bg-main); border-left: 4px solid var(--accent); padding: 15px 20px; display: flex; flex-direction: column; justify-content: center;">
+                        <h4 style="margin: 0 0 8px 0; color: var(--accent); font-size: 1rem;"><i class="fas fa-user-check"></i> Paradigma Human-in-the-Loop</h4>
+                        <p style="font-size: 0.85rem; color: var(--text-muted); margin: 0; line-height: 1.5;">La IA no decide. Opera en dashboards orientativos requiriendo siempre validación analítica confirmatoria para emitir dictámenes normativos de cierre o apertura.</p>
+                    </div>
+
+                    <div class="card warning-card" style="background: var(--bg-main); border-left: 4px solid var(--warning); padding: 15px 20px; display: flex; flex-direction: column; justify-content: center;">
+                        <h4 style="margin: 0 0 8px 0; color: var(--warning); font-size: 1rem;"><i class="fas fa-map-location-dot"></i> Limitación Espacial</h4>
+                        <p style="font-size: 0.85rem; color: var(--text-muted); margin: 0; line-height: 1.5;">Al depender de un solo pixel satelital (Almanza), el modelo actual no puede sectorizar micro-zonas dentro del canal, limitando la granularidad espacial del control.</p>
+                    </div>
+
+                    <div class="card neutral-card" style="background: var(--bg-main); border-left: 4px solid var(--text-main); padding: 15px 20px; display: flex; flex-direction: column; justify-content: center;">
+                        <h4 style="margin: 0 0 8px 0; color: var(--text-main); font-size: 1rem;"><i class="fas fa-sync-alt"></i> Ciclo MLOps</h4>
+                        <p style="font-size: 0.85rem; color: var(--text-muted); margin: 0; line-height: 1.5;">El sistema no es estático. Plantea un reentrenamiento continuo con la ingestión periódica de nuevas muestras de laboratorio para calibrar dinámicamente los umbrales.</p>
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+    </section>
+
+    <section id="cierre" style="height: 100vh; overflow: hidden; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 20px;">
+        <div class="section-container" style="text-align: center; width: 100%; display: flex; flex-direction: column; justify-content: center; align-items: center; max-height: 100%;">
+            
+            <h2 style="font-size: 3.5rem; margin-bottom: 5px; color: var(--text-main); border: none; justify-content: center;">¡Muchas Gracias!</h2>
+            <p class="font-mono" style="font-size: 1.3rem; color: var(--accent); margin-bottom: 30px;"><i class="fas fa-comments"></i> Espacio para consultas</p>
+
+            <div class="card neutral-card" style="margin: 0 auto 40px auto; width: 100%; max-width: 900px; height: auto; flex-grow: 0; background: rgba(0,0,0,0.2); border: 1px solid var(--border-color); padding: 25px; box-shadow: inset 0 0 20px rgba(0,0,0,0.2);">
+                <span class="font-mono" style="color: var(--text-main); font-size: 1rem; margin-bottom: 20px; letter-spacing: 3px; display: block; font-weight: 700;">AGRADECIMIENTOS ESPECIALES</span>
+                
+                <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 15px;">
+                    <span style="background: var(--bg-main); border: 1px solid var(--accent); color: var(--text-main); padding: 8px 15px; border-radius: 6px; font-size: 0.95rem; box-shadow: var(--shadow);"><i class="fas fa-university" style="color: var(--accent); margin-right: 8px;"></i> UTN FRTDF</span>
+                    <span style="background: var(--bg-main); border: 1px solid var(--safe); color: var(--text-main); padding: 8px 15px; border-radius: 6px; font-size: 0.95rem; box-shadow: var(--shadow);"><i class="fas fa-flask" style="color: var(--safe); margin-right: 8px;"></i> Laboratorio de Toxinas Marinas</span>
+                    <span style="background: var(--bg-main); border: 1px solid var(--warning); color: var(--text-main); padding: 8px 15px; border-radius: 6px; font-size: 0.95rem; box-shadow: var(--shadow);"><i class="fas fa-satellite" style="color: var(--warning); margin-right: 8px;"></i> CADIC</span>
+                    <span style="background: var(--bg-main); border: 1px solid var(--danger); color: var(--text-main); padding: 8px 15px; border-radius: 6px; font-size: 0.95rem; box-shadow: var(--shadow);"><i class="fas fa-school" style="color: var(--danger); margin-right: 8px;"></i> Politécnico Malvinas Argentinas</span>
+                </div>
+                
+                <p style="margin-top: 25px; font-size: 1rem; color: var(--text-muted); font-style: italic; margin-bottom: 0;">
+                    Y a todos los presentes por su tiempo y atención durante esta presentación.
+                </p>
+            </div>
+
+            <div style="display: flex; justify-content: center; align-items: center; gap: 20px; flex-wrap: wrap; flex-grow: 0;">
+                
+                <a href="mailto:victorvisnuk@gmail.com" class="card warning-card" style="text-decoration: none; padding: 12px 20px; display: flex; align-items: center; gap: 10px; border-left: 4px solid var(--warning); background: var(--bg-main); height: auto;">
+                    <i class="fas fa-envelope" style="font-size: 1.5rem; color: var(--warning);"></i>
+                    <span class="font-mono" style="color: var(--text-main); font-size: 1rem;">victorvisnuk@gmail.com</span>
+                </a>
+
+                <a href="https://www.linkedin.com/in/victor-vis%C3%B1uk/" target="_blank" rel="noopener noreferrer" class="card person-card" style="text-decoration: none; padding: 12px 20px; display: flex; align-items: center; gap: 10px; border-left: 4px solid var(--accent); background: var(--bg-main); height: auto;">
+                    <i class="fab fa-linkedin" style="font-size: 1.5rem; color: var(--accent);"></i>
+                    <span style="color: var(--text-main); font-weight: 700; font-size: 1rem;">LinkedIn</span>
+                </a>
+                
+                <a href="https://github.com/VictorVisnuk/IAMareaRoja" target="_blank" rel="noopener noreferrer" class="card neutral-card" style="text-decoration: none; padding: 12px 20px; display: flex; align-items: center; gap: 10px; border-left: 4px solid var(--text-main); background: var(--bg-main); height: auto;">
+                    <i class="fab fa-github" style="font-size: 1.5rem; color: var(--text-main);"></i>
+                    <span style="color: var(--text-main); font-weight: 700; font-size: 1rem;">Código Fuente</span>
+                </a>
+
+            </div>
+            
+        </div>
+    </section>
+
+    <div class="floating-controls">
+        <button id="theme-toggle-btn" class="control-btn" title="Modo Claro/Oscuro">
+            <i class="fas fa-moon"></i>
+        </button>
+        <button id="presentation-toggle-btn" class="control-btn" title="Activar Modo Presentación">
+            <i class="fas fa-book-open"></i>
+        </button>
+    </div>
+
+
+    <div id="technical-modal" class="modal-overlay" onclick="closeModal(event)">
+        <div class="modal-box" onclick="event.stopPropagation()">
+            <button class="modal-close" onclick="closeModal()"><i class="fas fa-times"></i></button>
+            
+            <div id="modal-diccionario" class="modal-content" style="display: none;">
+                <h3 style="color: var(--accent); margin-top: 0; margin-bottom: 15px; border-bottom: 1px solid var(--border-color); padding-bottom: 10px;"><i class="fas fa-database"></i> Diccionario de Datos</h3>
+                
+                <div class="table-scroll-wrapper">
+                    <table class="modal-table">
+                        <thead>
+                            <tr>
+                                <th>Nombre de la Variable</th>
+                                <th>Descripción</th>
+                                <th>Unidad / Valores</th>
+                                <th>Origen</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr><td><strong>Resultado_Cat</strong></td><td>Categoría sanitaria final unificada</td><td>0 (No det.), 1 (Apto), 2 (No apto)</td><td>Lab. Toxinas Marinas</td></tr>
+                            <tr><td><strong>Presencia</strong></td><td>Detección binaria de TPM (Fase 1)</td><td>0 (Ausencia), 1 (Presencia)</td><td>Calculado (Ingeniería)</td></tr>
+                            <tr><td><strong>Peligrosidad</strong></td><td>Grado de toxicidad binario (Fase 2)</td><td>0 (&lt; 800 µg), 1 (&gt; 800 µg)</td><td>Calculado (Ingeniería)</td></tr>
+                            <tr><td><strong>Fecha</strong></td><td>Fecha de muestreo y registro</td><td>YYYY-MM-DD</td><td>Integración</td></tr>
+                            <tr><td><strong>T2M</strong></td><td>Temperatura del aire a 2 metros</td><td>°C</td><td>NASA POWER</td></tr>
+                            <tr><td><strong>T2M_MIN / T2M_MAX</strong></td><td>Temp. mínima y máxima a 2 metros</td><td>°C</td><td>NASA POWER</td></tr>
+                            <tr><td><strong>T2M_RANGE</strong></td><td>Amplitud térmica (Max - Min) a 2 metros</td><td>°C</td><td>NASA POWER</td></tr>
+                            <tr><td><strong>T2MDEW</strong></td><td>Temperatura del punto de rocío a 2 metros</td><td>°C</td><td>NASA POWER</td></tr>
+                            <tr><td><strong>T2MWET</strong></td><td>Temperatura de bulbo húmedo a 2 metros</td><td>°C</td><td>NASA POWER</td></tr>
+                            <tr><td><strong>TS</strong></td><td>Temperatura superficial de la Tierra (Skin)</td><td>°C</td><td>NASA POWER</td></tr>
+                            <tr><td><strong>QV2M</strong></td><td>Humedad específica a 2 metros</td><td>g/kg</td><td>NASA POWER</td></tr>
+                            <tr><td><strong>RH2M</strong></td><td>Humedad relativa a 2 metros</td><td>%</td><td>NASA POWER</td></tr>
+                            <tr><td><strong>PRECTOTCORR</strong></td><td>Precipitación total corregida</td><td>mm/día</td><td>NASA POWER</td></tr>
+                            <tr><td><strong>PS</strong></td><td>Presión superficial</td><td>kPa</td><td>NASA POWER</td></tr>
+                            <tr><td><strong>WS2M / WS10M / WS50M</strong></td><td>Velocidad del viento a 2, 10 y 50 metros</td><td>m/s</td><td>NASA POWER</td></tr>
+                            <tr><td><strong>WS10M_MIN / WS10M_MAX</strong></td><td>Velocidad mín. y máx. del viento a 10m</td><td>m/s</td><td>NASA POWER</td></tr>
+                            <tr><td><strong>WS10M_RANGE</strong></td><td>Rango de velocidad del viento a 10m</td><td>m/s</td><td>NASA POWER</td></tr>
+                            <tr><td><strong>WS50M_MIN / WS50M_MAX</strong></td><td>Velocidad mín. y máx. del viento a 50m</td><td>m/s</td><td>NASA POWER</td></tr>
+                            <tr><td><strong>WS50M_RANGE</strong></td><td>Rango de velocidad del viento a 50m</td><td>m/s</td><td>NASA POWER</td></tr>
+                            <tr><td><strong>WD10M / WD50M</strong></td><td>Dirección del viento a 10 y 50 metros</td><td>Grados (°)</td><td>NASA POWER</td></tr>
+                            <tr><td><strong>ALLSKY_SFC_SW_DWN</strong></td><td>Radiación onda corta descendente (All Sky)</td><td>kW-hr/m²/día</td><td>NASA POWER</td></tr>
+                            <tr><td><strong>CLRSKY_SFC_SW_DWN</strong></td><td>Radiación onda corta descendente (Clear Sky)</td><td>kW-hr/m²/día</td><td>NASA POWER</td></tr>
+                            <tr><td><strong>ALLSKY_SFC_SW_DNI</strong></td><td>Irradiancia normal directa de onda corta</td><td>kW-hr/m²/día</td><td>NASA POWER</td></tr>
+                            <tr><td><strong>ALLSKY_SFC_SW_DIFF</strong></td><td>Irradiancia difusa de onda corta</td><td>kW-hr/m²/día</td><td>NASA POWER</td></tr>
+                            <tr><td><strong>ALLSKY_KT</strong></td><td>Índice de claridad de insolación</td><td>Adimensional</td><td>NASA POWER</td></tr>
+                            <tr><td><strong>ALLSKY_SFC_LW_DWN</strong></td><td>Radiación de onda larga descendente</td><td>kW-hr/m²/día</td><td>NASA POWER</td></tr>
+                            <tr><td><strong>ALLSKY_SFC_PAR_TOT</strong></td><td>Radiación Fotosintéticamente Activa (PAR)</td><td>W/m²</td><td>NASA POWER</td></tr>
+                            <tr><td><strong>CLRSKY_SFC_PAR_TOT</strong></td><td>Radiación PAR bajo cielo despejado</td><td>W/m²</td><td>NASA POWER</td></tr>
+                            <tr><td><strong>ALLSKY_SFC_UVA</strong></td><td>Irradiancia superficial UVA</td><td>W/m²</td><td>NASA POWER</td></tr>
+                            <tr><td><strong>ALLSKY_SFC_UVB</strong></td><td>Irradiancia superficial UVB</td><td>W/m²</td><td>NASA POWER</td></tr>
+                            <tr><td><strong>ALLSKY_SFC_UV_INDEX</strong></td><td>Índice UV superficial (cielo cubierto/total)</td><td>Adimensional</td><td>NASA POWER</td></tr>
+                            <tr><td><strong>[Variable]_MA_7d</strong></td><td>Media móvil de 7 días (ej. T2M_MA_7d)</td><td>Misma de la base</td><td>Calculado (Ingeniería)</td></tr>
+                            <tr><td><strong>[Variable]_MA_14d</strong></td><td>Media móvil de 14 días (ej. TS_MA_14d)</td><td>Misma de la base</td><td>Calculado (Ingeniería)</td></tr>
+                            <tr><td><strong>[Variable]_MA_30d</strong></td><td>Media móvil de 30 días (ej. WS2M_MA_30d)</td><td>Misma de la base</td><td>Calculado (Ingeniería)</td></tr>
+                            <tr><td><strong>PRECTOTCORR_SUM_7d</strong></td><td>Lluvia total acumulada en 7 días</td><td>mm</td><td>Calculado (Ingeniería)</td></tr>
+                            <tr><td><strong>PRECTOTCORR_SUM_14d</strong></td><td>Lluvia total acumulada en 14 días</td><td>mm</td><td>Calculado (Ingeniería)</td></tr>
+                            <tr><td><strong>PRECTOTCORR_SUM_30d</strong></td><td>Lluvia total acumulada en 30 días</td><td>mm</td><td>Calculado (Ingeniería)</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div id="modal-hiperparametros" class="modal-content" style="display: none;">
+                <h3 style="color: var(--warning); margin-top: 0; margin-bottom: 15px; border-bottom: 1px solid var(--border-color); padding-bottom: 10px;"><i class="fas fa-microchip"></i> Grilla de Hyperparameter Tuning</h3>
+                
+                <div class="table-scroll-wrapper">
+                    <table class="modal-table warning-theme">
+                        <thead>
+                            <tr>
+                                <th>Algoritmo</th>
+                                <th>Hiperparámetro</th>
+                                <th>Rango de búsqueda / Valores posibles</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr><td><strong>Random Forest</strong></td><td>n_estimators</td><td>[100, 500] (Uniforme discreta)</td></tr>
+                            <tr><td><strong>Random Forest</strong></td><td>max_depth</td><td>[None, 10, 20, 30]</td></tr>
+                            <tr><td><strong>Random Forest</strong></td><td>min_samples_split</td><td>[2, 11] (Uniforme discreta)</td></tr>
+                            <tr><td><strong>Random Forest</strong></td><td>min_samples_leaf</td><td>[1, 11] (Uniforme discreta)</td></tr>
+                            <tr><td><strong>Random Forest</strong></td><td>max_features</td><td>["sqrt", "log2", 0.5, 0.7]</td></tr>
+                            <tr><td><strong>Random Forest</strong></td><td>bootstrap</td><td>[True, False]</td></tr>
+                            <tr><td><strong>Random Forest</strong></td><td>class_weight</td><td>[None, "balanced", "balanced_subsample"]</td></tr>
+                            
+                            <tr><td><strong>XGBoost</strong></td><td>n_estimators</td><td>[100, 600] (Uniforme discreta)</td></tr>
+                            <tr><td><strong>XGBoost</strong></td><td>learning_rate</td><td>[0.01, 0.3] (Log-uniforme continua)</td></tr>
+                            <tr><td><strong>XGBoost</strong></td><td>max_depth</td><td>[3, 10] (Uniforme discreta)</td></tr>
+                            <tr><td><strong>XGBoost</strong></td><td>subsample</td><td>[0.7, 1.0] (Uniforme continua)</td></tr>
+                            <tr><td><strong>XGBoost</strong></td><td>colsample_bytree</td><td>[0.7, 1.0] (Uniforme continua)</td></tr>
+                            <tr><td><strong>XGBoost</strong></td><td>gamma</td><td>[0.0, 5.0] (Uniforme continua)</td></tr>
+                            <tr><td><strong>XGBoost</strong></td><td>reg_alpha</td><td>[0.001, 10.0] (Log-uniforme continua)</td></tr>
+                            <tr><td><strong>XGBoost</strong></td><td>reg_lambda</td><td>[0.001, 10.0] (Log-uniforme continua)</td></tr>
+
+                            <tr><td><strong>Regresión Logística</strong></td><td>C (Inversa de reg.)</td><td>[0.001, 100.0] (Log-uniforme continua)</td></tr>
+                            <tr><td><strong>Regresión Logística</strong></td><td>penalty</td><td>['l1', 'l2']</td></tr>
+                            <tr><td><strong>Regresión Logística</strong></td><td>class_weight</td><td>[None, "balanced"]</td></tr>
+
+                            <tr><td><strong>SVM</strong></td><td>C (Penalización)</td><td>[0.1, 100.0] (Log-uniforme continua)</td></tr>
+                            <tr><td><strong>SVM</strong></td><td>kernel</td><td>["linear", "rbf", "poly"]</td></tr>
+                            <tr><td><strong>SVM</strong></td><td>gamma</td><td>["scale", "auto", 0.001, 0.01, 0.1, 1.0]</td></tr>
+                            <tr><td><strong>SVM</strong></td><td>class_weight</td><td>[None, "balanced"]</td></tr>
+
+                            <tr><td><strong>Gradient Boosting</strong></td><td>n_estimators</td><td>[100, 500] (Uniforme discreta)</td></tr>
+                            <tr><td><strong>Gradient Boosting</strong></td><td>learning_rate</td><td>[0.01, 0.3] (Log-uniforme continua)</td></tr>
+                            <tr><td><strong>Gradient Boosting</strong></td><td>max_depth</td><td>[3, 10] (Uniforme discreta)</td></tr>
+                            <tr><td><strong>Gradient Boosting</strong></td><td>subsample</td><td>[0.7, 1.0] (Uniforme continua)</td></tr>
+                            <tr><td><strong>Gradient Boosting</strong></td><td>min_samples_split</td><td>[2, 11] (Uniforme discreta)</td></tr>
+                            <tr><td><strong>Gradient Boosting</strong></td><td>min_samples_leaf</td><td>[1, 11] (Uniforme discreta)</td></tr>
+                            <tr><td><strong>Gradient Boosting</strong></td><td>max_features</td><td>["sqrt", "log2", None]</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div id="modal-metricas" class="modal-content" style="display: none;">
+                <h3 style="color: var(--accent); margin-top: 0; margin-bottom: 15px; border-bottom: 1px solid var(--border-color); padding-bottom: 10px;"><i class="fas fa-calculator"></i> Glosario de Métricas y Fórmulas</h3>
+                
+                <div class="table-scroll-wrapper" style="padding: 25px; text-align: left;">
+                    
+                    <div style="margin-bottom: 25px;">
+                        <h4 style="color: var(--safe); margin: 0 0 8px 0; font-size: 1.05rem;"><i class="fas fa-th"></i> Matriz de Confusión</h4>
+                        <p style="font-size: 0.9rem; color: var(--text-muted); margin: 0; line-height: 1.5;">Herramienta central para evaluar modelos de clasificación. Cruza las Predicciones (columnas) con la Realidad (filas). Define 4 escenarios básicos: <strong>TP</strong> (Verdadero Positivo / Acierto de peligro), <strong>TN</strong> (Verdadero Negativo / Acierto de normalidad), <strong>FP</strong> (Falso Positivo / Falsa Alarma) y <strong>FN</strong> (Falso Negativo / Omisión crítica).</p>
+                    </div>
+                    
+                    <div style="margin-bottom: 20px;">
+                        <h4 style="color: var(--text-main); margin: 0 0 5px 0;">Exactitud (Accuracy)</h4>
+                        <p style="font-size: 0.85rem; color: var(--text-muted); margin: 0 0 5px 0;">Porcentaje global de aciertos del modelo. Tiende a ser engañoso en escenarios muy desbalanceados (como predecir marea roja).</p>
+                        <code class="formula-box">Accuracy = (TP + TN) / Total</code>
+                    </div>
+
+                    <div style="margin-bottom: 20px;">
+                        <h4 style="color: var(--text-main); margin: 0 0 5px 0;">Precisión (Precision)</h4>
+                        <p style="font-size: 0.85rem; color: var(--text-muted); margin: 0 0 5px 0;">Responde a: <em>De todos los eventos que el modelo advirtió como peligrosos, ¿cuántos lo eran realmente?</em> Penaliza las falsas alarmas (FP).</p>
+                        <code class="formula-box">Precision = TP / (TP + FP)</code>
+                    </div>
+
+                    <div style="margin-bottom: 20px;">
+                        <h4 style="color: var(--text-main); margin: 0 0 5px 0;">Sensibilidad (Recall)</h4>
+                        <p style="font-size: 0.85rem; color: var(--text-muted); margin: 0 0 5px 0;">Responde a: <em>De todos los eventos de toxicidad real, ¿cuántos logró capturar el modelo?</em> Penaliza las omisiones (FN). Es la métrica más crítica en salud pública.</p>
+                        <code class="formula-box">Recall = TP / (TP + FN)</code>
+                    </div>
+
+                    <div style="margin-bottom: 20px;">
+                        <h4 style="color: var(--text-main); margin: 0 0 5px 0;">F1-Score</h4>
+                        <p style="font-size: 0.85rem; color: var(--text-muted); margin: 0 0 5px 0;">Media armónica entre Precisión y Sensibilidad. Es la métrica definitiva para validar modelos cuando hay un fuerte desbalance de clases, ya que exige que tanto FP como FN sean bajos.</p>
+                        <code class="formula-box">F1 = 2 * (Precision * Recall) / (Precision + Recall)</code>
+                    </div>
+
+                    <div style="margin-bottom: 20px;">
+                        <h4 style="color: var(--text-main); margin: 0 0 5px 0;">F1-Macro</h4>
+                        <p style="font-size: 0.85rem; color: var(--text-muted); margin: 0;">Es el promedio de los F1-Score calculados para cada clase individualmente. Trata a todas las categorías con el mismo peso, sin importar si una (ej. Cierre Sanitario) ocurre raras veces frente a la categoría Normal.</p>
+                    </div>
+
+                    <div>
+                        <h4 style="color: var(--text-main); margin: 0 0 5px 0;">Soporte (Support)</h4>
+                        <p style="font-size: 0.85rem; color: var(--text-muted); margin: 0;">Cantidad real de ocurrencias de una clase dentro del set de validación (N = 55). Un soporte bajo justifica una mayor sensibilidad o "incertidumbre estadística" en el desempeño final.</p>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
